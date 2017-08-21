@@ -110,7 +110,7 @@
 				TargetAttributes = {
 					6739A12E1F48C23800F0F72A = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = RH35ZLYLX7;
+						DevelopmentTeam = 8T77KF7GLF;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -279,12 +279,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = RH35ZLYLX7;
+				DEVELOPMENT_TEAM = 8T77KF7GLF;
 				INFOPLIST_FILE = CAShapeLayerExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.makeitmobile.cashapelayer.fun.CAShapeLayerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -292,12 +293,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = RH35ZLYLX7;
+				DEVELOPMENT_TEAM = 8T77KF7GLF;
 				INFOPLIST_FILE = CAShapeLayerExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.makeitmobile.cashapelayer.fun.CAShapeLayerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
