@@ -25,9 +25,9 @@ class ViewController: UIViewController {
         ),
     ]
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.backgroundColor = UIColor.black
         self.tableView.register( UINib(nibName: "StyledTableViewCell", bundle: nil), forCellReuseIdentifier: "StyledTableViewCell")
         
         self.tableView.delegate = self
