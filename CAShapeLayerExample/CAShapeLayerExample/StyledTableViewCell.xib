@@ -23,14 +23,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="442" height="146.5"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QAN-hW-yXA" userLabel="Container View">
-                        <rect key="frame" x="0.0" y="65.5" width="442" height="73"/>
+                        <rect key="frame" x="0.0" y="33" width="442" height="105.5"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="5QO-Qg-N7N">
-                                <rect key="frame" x="110.5" y="0.0" width="331.5" height="73"/>
+                                <rect key="frame" x="110.5" y="0.0" width="331.5" height="105.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Winter is coming!" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2e-HX-pBa" userLabel="Title">
                                         <rect key="frame" x="0.0" y="0.0" width="331.5" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -41,9 +41,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now with 10% fewer flayings. Come for the magnificant wildlife: dire wolves, wogs, and the walking dead." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gtm-1s-hH8" userLabel="Description">
-                                        <rect key="frame" x="0.0" y="55" width="331.5" height="18"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <rect key="frame" x="0.0" y="55" width="331.5" height="50.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -64,7 +64,7 @@
                     <constraint firstItem="QAN-hW-yXA" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailing" id="bCq-67-ePn"/>
                     <constraint firstAttribute="trailing" secondItem="h1Y-1K-9vb" secondAttribute="trailing" id="k1G-uT-dRq"/>
                     <constraint firstItem="h1Y-1K-9vb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="uWf-jc-aCf"/>
-                    <constraint firstItem="QAN-hW-yXA" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.5" id="wKI-DN-mh0"/>
+                    <constraint firstItem="QAN-hW-yXA" firstAttribute="height" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.5" id="wKI-DN-mh0"/>
                     <constraint firstItem="QAN-hW-yXA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="xt7-E0-Q5g"/>
                     <constraint firstItem="QAN-hW-yXA" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" constant="-8" id="zP8-Fb-5zv"/>
                 </constraints>
