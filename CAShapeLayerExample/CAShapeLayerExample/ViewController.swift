@@ -33,13 +33,28 @@ class ViewController: UIViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.frame = CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: self.view.frame.height)
+        
+        let gradientlayer = CAGradientLayer()
+        gradientlayer.frame = shapeLayer.frame
+        let blue = UIColor(red: 48/255.0, green: 35/255.0, blue: 174/255.0, alpha: 50).cgColor
+        let purple = UIColor(red: 200/255.0, green: 109/255.0, blue: 215/255.0, alpha: 100).cgColor
+        gradientlayer.colors = [ blue, purple]
+        
+        // assemble layers
+        gradientlayer.opacity = 0.75
+        shapeLayer.addSublayer( gradientlayer)
+        self.view.layer.addSublayer(shapeLayer)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 
 
