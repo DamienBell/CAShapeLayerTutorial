@@ -3,6 +3,8 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    var shapeLayer: CAShapeLayer?
+    var bottomRight: CAShapeLayer?
     
     let data = [
         (
@@ -36,24 +38,66 @@ class ViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.frame = CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: self.view.frame.height)
+        self.shapeLayer = CAShapeLayer()
+        self.shapeLayer?.fillColor = UIColor(red: 48/255.0, green: 35/255.0, blue: 174/255.0, alpha: 50).cgColor
+        self.shapeLayer?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: self.view.frame.height)
         
-        let gradientlayer = CAGradientLayer()
-        gradientlayer.frame = shapeLayer.frame
-        let blue = UIColor(red: 48/255.0, green: 35/255.0, blue: 174/255.0, alpha: 50).cgColor
-        let purple = UIColor(red: 200/255.0, green: 109/255.0, blue: 215/255.0, alpha: 100).cgColor
-        gradientlayer.colors = [ blue, purple]
+        // bottom, right path + shape
+        let p = UIBezierPath()
+        p.move(to: CGPoint(x: self.view.frame.width, y: self.view.frame.height*0.25))
+        p.addQuadCurve(to: CGPoint(x: 0, y: self.view.frame.height), controlPoint: CGPoint(x: self.view.frame.width*0.95, y: self.view.frame.size.height*0.95))
+        p.addLine(to: CGPoint(x: self.view.frame.size.width, y: self.view.frame.size.height))
+        self.bottomRight = CAShapeLayer()
+        self.bottomRight?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: self.view.frame.height)
+        self.bottomRight?.fillColor = UIColor.purple.cgColor
+        self.bottomRight?.path = p.cgPath
         
-        // assemble layers
-        gradientlayer.opacity = 0.75
-        shapeLayer.addSublayer( gradientlayer)
-        self.view.layer.addSublayer(shapeLayer)
+        // initial bezier path
+        self.shapeLayer?.path = self.generatePathFor(frame: self.view.frame, xOffset: 0, yOffset: 0).cgPath
+        if let layer = self.shapeLayer {
+            self.view.layer.addSublayer( layer)
+        }
+        if let br = self.bottomRight {
+            self.view.layer.addSublayer( br)
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func generatePathFor(frame: CGRect, xOffset: CGFloat, yOffset: CGFloat) -> UIBezierPath {
+        // find control points
+        let controlP1 = CGPoint(x: 150 + xOffset, y: (view.frame.size.height/3) + -yOffset)
+        let controlP2 = CGPoint(x: 150 + xOffset, y: (view.frame.size.height/3)*2 + -yOffset)
+        
+        let bezierPath = UIBezierPath()
+        bezierPath.move(to: CGPoint(x: 0, y: 0))
+        // add control points
+        bezierPath.addQuadCurve(to: CGPoint(x: 0, y: view.center.y), controlPoint: controlP1)
+        bezierPath.addQuadCurve(to: CGPoint(x: 0, y: view.frame.size.height), controlPoint: controlP2)
+        
+        return bezierPath
+    }
+}
+
+extension ViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollOffset: CGPoint = scrollView.contentOffset
+        print( "Scroll offset: \( scrollOffset)")
+        
+        // adjust path
+        let adjustedBezierPath: UIBezierPath = self.generatePathFor(frame: self.view.frame, xOffset: scrollOffset.x, yOffset: scrollOffset.y)
+        // adjust shape layer path based on scroll offset
+        self.shapeLayer?.path = adjustedBezierPath.cgPath
+        
+        let p = UIBezierPath()
+        p.move(to: CGPoint(x: self.view.frame.width, y: self.view.frame.height*0.25))
+        p.addQuadCurve(to: CGPoint(x: 0, y: self.view.frame.height), controlPoint: CGPoint(x: self.view.frame.width*0.80, y: self.view.frame.size.height*0.90 + (scrollOffset.y)))
+        p.addLine(to: CGPoint(x: self.view.frame.size.width, y: self.view.frame.size.height))
+        self.bottomRight?.fillColor = UIColor.purple.cgColor
+        self.bottomRight?.path = p.cgPath
     }
 }
 
