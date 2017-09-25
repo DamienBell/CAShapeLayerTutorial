@@ -38,27 +38,21 @@ class ViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.shapeLayer = CAShapeLayer()
-        self.shapeLayer?.fillColor = UIColor(red: 48/255.0, green: 35/255.0, blue: 174/255.0, alpha: 50).cgColor
-        self.shapeLayer?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: self.view.frame.height)
-        
         // bottom, right path + shape
         let p = UIBezierPath()
-        p.move(to: CGPoint(x: self.view.frame.width, y: self.view.frame.height*0.25))
-        p.addQuadCurve(to: CGPoint(x: 0, y: self.view.frame.height), controlPoint: CGPoint(x: self.view.frame.width*0.95, y: self.view.frame.size.height*0.95))
-        p.addLine(to: CGPoint(x: self.view.frame.size.width, y: self.view.frame.size.height))
-        self.bottomRight = CAShapeLayer()
-        self.bottomRight?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: self.view.frame.height)
-        self.bottomRight?.fillColor = UIColor.purple.cgColor
-        self.bottomRight?.path = p.cgPath
+        p.move(to: CGPoint(x: 0, y: 0))
+        p.addLine( to: CGPoint(x: (225/500)*225, y: 0))
+        let ctrl1 = CGPoint(x: (50/500)*50, y: (175*500)*175)
+        let ctrl2 = CGPoint(x: (350/500)*50, y: self.view.frame.height*0.80)
+        p.addCurve(to: CGPoint(x: 0, y: self.view.frame.height), controlPoint1: ctrl1, controlPoint2: ctrl2)
         
-        // initial bezier path
-        self.shapeLayer?.path = self.generatePathFor(frame: self.view.frame, xOffset: 0, yOffset: 0).cgPath
+        self.shapeLayer = CAShapeLayer()
+        self.shapeLayer?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.shapeLayer?.fillColor = UIColor.blue.cgColor
+        self.shapeLayer?.path = p.cgPath
+        
         if let layer = self.shapeLayer {
             self.view.layer.addSublayer( layer)
-        }
-        if let br = self.bottomRight {
-            self.view.layer.addSublayer( br)
         }
     }
 
