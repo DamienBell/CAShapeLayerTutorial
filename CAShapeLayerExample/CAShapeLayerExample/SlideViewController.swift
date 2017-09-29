@@ -108,6 +108,22 @@ class SlideViewController: UIViewController {
         }
         layer4.path = p4
         self.view.layer.addSublayer( layer4)
+     
+        // animate layer4
+        let animateToPath = generatePath(
+            begin: CGPoint(x: 0, y: 0),
+            end: CGPoint(x: 0, y: self.view.frame.maxY),
+            ctrl1: CGPoint(x: 0.0 + offsetX - 100, y: 462.219284296036),
+            ctrl2: CGPoint(x: 318.452373147011 + offsetX, y: 0.0)
+        )
+        let pathAnimation = CABasicAnimation(keyPath: "path")
+        pathAnimation.duration = 3
+        pathAnimation.fromValue = layer4.path
+        pathAnimation.toValue = animateToPath
+        pathAnimation.fillMode = kCAFillModeBoth
+        pathAnimation.isRemovedOnCompletion = false
+        pathAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        layer4.add( pathAnimation, forKey: pathAnimation.keyPath)
         
         // add circular shapes
         for i in 0..<3 {
