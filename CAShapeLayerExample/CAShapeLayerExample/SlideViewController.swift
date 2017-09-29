@@ -9,10 +9,12 @@ class SlideViewController: UIViewController {
         "MakeItMobile",
         "Established 2017",
         "Web + Mobile software development",
-        "Over 10 years of experience",
-        "Make",
-        "MakeIt",
-        "MakeItMobile"
+        "iOS",
+        "React.js",
+        "Node.js",
+        "Postgres",
+        "You get the idea...",
+        "Hire Us! hello@makeitmobile.co"
     ]
     private var counter = 0
     
@@ -34,7 +36,6 @@ class SlideViewController: UIViewController {
         gradient.zPosition = -1
         self.view.layer.addSublayer(gradient)
 
-        // one direction per UISwipeGestureRecognizer
         self.addGestureRecognizers( view: self.view)
     }
     
@@ -47,20 +48,20 @@ class SlideViewController: UIViewController {
         }
     }
     
+    func generatePath( begin: CGPoint, end: CGPoint, ctrl1: CGPoint, ctrl2: CGPoint) -> CGPath {
+        let shapePath = UIBezierPath()
+        shapePath.move(to: begin)
+        shapePath.addCurve(to: end, controlPoint1: ctrl1, controlPoint2: ctrl2)
+        
+        return shapePath.cgPath
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear( animated)
         
         self.titleLabel.text = self.contents[ self.counter]
         
         // add layers
-        func generatePath( begin: CGPoint, end: CGPoint, ctrl1: CGPoint, ctrl2: CGPoint) -> CGPath {
-            let shapePath = UIBezierPath()
-            shapePath.move(to: begin)
-            shapePath.addCurve(to: end, controlPoint1: ctrl1, controlPoint2: ctrl2)
-            
-            return shapePath.cgPath
-        }
-        
         // add 2nd layer
         var offsetX: CGFloat = 0
         let p2 = generatePath(
@@ -109,7 +110,7 @@ class SlideViewController: UIViewController {
         layer4.path = p4
         self.view.layer.addSublayer( layer4)
      
-        // animate layer4
+        // animation group
         let animateToPath = generatePath(
             begin: CGPoint(x: 0, y: 0),
             end: CGPoint(x: 0, y: self.view.frame.maxY),
@@ -122,8 +123,17 @@ class SlideViewController: UIViewController {
         pathAnimation.toValue = animateToPath
         pathAnimation.fillMode = kCAFillModeBoth
         pathAnimation.isRemovedOnCompletion = false
+        pathAnimation.autoreverses = true
+        pathAnimation.repeatCount = Float.infinity
         pathAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-        layer4.add( pathAnimation, forKey: pathAnimation.keyPath)
+        // group
+        let group = CAAnimationGroup()
+        group.animations = [ pathAnimation]
+        group.repeatCount = Float.infinity
+        group.duration = 3
+        group.autoreverses = true
+        group.isRemovedOnCompletion = false
+        layer4.add( group, forKey: nil)
         
         // add circular shapes
         for i in 0..<3 {
