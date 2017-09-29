@@ -18,9 +18,24 @@ class SlideViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.white
+        self.titleLabel.textColor = UIColor.white
         
+        // set gradient background
+        let gradient = CAGradientLayer()
+        gradient.frame = self.view.bounds
+        gradient.colors = [
+            UIColor.purple.cgColor,
+            UIColor(red: 244/255, green: 88/255, blue: 53/255, alpha: 1).cgColor
+        ]
+        gradient.startPoint = CGPoint(x:0, y:0)
+        gradient.endPoint = CGPoint(x:1, y:1)
+        // z-index "below" self.view
+        gradient.zPosition = -1
+        self.view.layer.addSublayer(gradient)
+
         // one direction per UISwipeGestureRecognizer
-        addGestureRecognizers( view: self.view)
+        self.addGestureRecognizers( view: self.view)
     }
     
     func addGestureRecognizers( view: UIView) {
@@ -36,6 +51,78 @@ class SlideViewController: UIViewController {
         super.viewWillAppear( animated)
         
         self.titleLabel.text = self.contents[ self.counter]
+        
+        // add layers
+        func generatePath( begin: CGPoint, end: CGPoint, ctrl1: CGPoint, ctrl2: CGPoint) -> CGPath {
+            let shapePath = UIBezierPath()
+            shapePath.move(to: begin)
+            shapePath.addCurve(to: end, controlPoint1: ctrl1, controlPoint2: ctrl2)
+            
+            return shapePath.cgPath
+        }
+        
+        // add 2nd layer
+        var offsetX: CGFloat = 0
+        let p2 = generatePath(
+            begin: CGPoint(x: offsetX, y: 0),
+            end: CGPoint(x: offsetX, y: self.view.frame.maxY),
+            ctrl1: CGPoint(x: 0.0 + offsetX, y: 462.219284296036),
+            ctrl2: CGPoint(x: 318.452373147011 + offsetX, y: 0.0)
+        )
+        let layer2 = CAShapeLayer()
+        if let c = UIColor.blue.cgColor.copy(alpha: 0.50) {
+            layer2.fillColor = c
+        }
+        layer2.path = p2
+        layer2.zPosition = -1
+        self.view.layer.addSublayer( layer2)
+        
+        // add 3rd layer
+        offsetX = 35
+        let p3 = generatePath(
+            begin: CGPoint(x: 0, y: 0),
+            end: CGPoint(x: 0, y: self.view.frame.maxY),
+            ctrl1: CGPoint(x: 0.0 + offsetX, y: 462.219284296036),
+            ctrl2: CGPoint(x: 318.452373147011 + offsetX, y: 0.0)
+        )
+        let layer3 = CAShapeLayer()
+        if let c = UIColor.blue.cgColor.copy(alpha: 0.50) {
+            layer3.fillColor = c
+        }
+        layer3.path = p3
+        layer3.zPosition = -1
+        self.view.layer.addSublayer( layer3)
+        
+        // add 4rd layer
+        offsetX = offsetX + 25
+        let p4 = generatePath(
+            begin: CGPoint(x: 0, y: 0),
+            end: CGPoint(x: 0, y: self.view.frame.maxY),
+            ctrl1: CGPoint(x: 0.0 + offsetX, y: 462.219284296036),
+            ctrl2: CGPoint(x: 318.452373147011 + offsetX, y: 0.0)
+        )
+        let layer4 = CAShapeLayer()
+        layer4.zPosition = -1
+        if let c = UIColor.red.cgColor.copy(alpha: 0.5) {
+            layer4.fillColor = c
+        }
+        layer4.path = p4
+        self.view.layer.addSublayer( layer4)
+        
+        // add circular shapes
+        for i in 0..<3 {
+            let r = self.view.frame.width * 0.20
+            let skewedCircle = UIBezierPath()
+            skewedCircle.move(to: CGPoint(x: self.view.frame.width-r, y: 0))
+            skewedCircle.addQuadCurve(to: CGPoint(x: self.view.frame.width-r+(2*r), y: 0), controlPoint: CGPoint(x: (self.view.frame.width/2) * 2.15, y: self.view.frame.height * 0.15 * CGFloat( i)))
+            let circle = CAShapeLayer()
+            if let c = UIColor.purple.cgColor.copy( alpha: 1-(CGFloat( i) * 0.20)) {
+                circle.fillColor = c
+            }
+            circle.path = skewedCircle.cgPath
+            circle.zPosition = -1
+            self.view.layer.addSublayer( circle)
+        }
     }
     
     func onSwipe(gesture: UIGestureRecognizer) {
