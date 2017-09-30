@@ -19,6 +19,8 @@
 		EA82C9841F79B76900942A80 /* SlideDemo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA82C9831F79B76900942A80 /* SlideDemo.storyboard */; };
 		EA82C9861F79B77600942A80 /* SlideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA82C9851F79B77600942A80 /* SlideViewController.swift */; };
 		EAFF70241F7AE33700B08428 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFF70231F7AE33700B08428 /* Extensions.swift */; };
+		EAFF70271F80520A00B08428 /* AnimatedShapeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFF70261F80520A00B08428 /* AnimatedShapeViewController.swift */; };
+		EAFF70291F80522400B08428 /* AnimatedShape.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAFF70281F80522400B08428 /* AnimatedShape.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		EA82C9831F79B76900942A80 /* SlideDemo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SlideDemo.storyboard; sourceTree = "<group>"; };
 		EA82C9851F79B77600942A80 /* SlideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideViewController.swift; sourceTree = "<group>"; };
 		EAFF70231F7AE33700B08428 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		EAFF70261F80520A00B08428 /* AnimatedShapeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedShapeViewController.swift; sourceTree = "<group>"; };
+		EAFF70281F80522400B08428 /* AnimatedShape.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AnimatedShape.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,7 @@
 		6739A1311F48C23800F0F72A /* CAShapeLayerExample */ = {
 			isa = PBXGroup;
 			children = (
+				EAFF70251F8051EE00B08428 /* Examples */,
 				EAFF70221F7AE2FB00B08428 /* Extensions */,
 				EA43F4351F4B4B6600049BE6 /* Views */,
 				6739A1321F48C23800F0F72A /* AppDelegate.swift */,
@@ -99,6 +104,15 @@
 				EAFF70231F7AE33700B08428 /* Extensions.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		EAFF70251F8051EE00B08428 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				EAFF70281F80522400B08428 /* AnimatedShape.storyboard */,
+				EAFF70261F80520A00B08428 /* AnimatedShapeViewController.swift */,
+			);
+			name = Examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +179,7 @@
 				EA47EE461F60AA7700A782C7 /* Landing.storyboard in Resources */,
 				6739A13D1F48C23800F0F72A /* LaunchScreen.storyboard in Resources */,
 				6739A13A1F48C23800F0F72A /* Assets.xcassets in Resources */,
+				EAFF70291F80522400B08428 /* AnimatedShape.storyboard in Resources */,
 				6739A1381F48C23800F0F72A /* Main.storyboard in Resources */,
 				EA82C9841F79B76900942A80 /* SlideDemo.storyboard in Resources */,
 			);
@@ -182,6 +197,7 @@
 				EA82C9861F79B77600942A80 /* SlideViewController.swift in Sources */,
 				EA43F4331F4B4B6100049BE6 /* StyledTableViewCell.swift in Sources */,
 				EA47EE481F60AA9A00A782C7 /* LandingViewController.swift in Sources */,
+				EAFF70271F80520A00B08428 /* AnimatedShapeViewController.swift in Sources */,
 				6739A1331F48C23800F0F72A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
