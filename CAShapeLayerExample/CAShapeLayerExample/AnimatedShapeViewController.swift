@@ -39,12 +39,8 @@ class AnimatedShapeViewController: UIViewController {
         )
         
         offset = offset + 25
-        let toPath2 = generatePath(
-            begin: CGPoint(x: 0, y: 0),
-            end: CGPoint(x: 0, y: self.view.frame.maxY),
-            ctrl1: CGPoint(x: 0.0, y: 462.219284296036 + offset),
-            ctrl2: CGPoint(x: 318.452373147011, y: 0.0 + offset)
-        )
+        let paths = self.generateRandomPaths(begin: CGPoint.zero, end: CGPoint(x: 0, y: self.view.frame.maxY), ctrl1: CGPoint(x: 0.0, y: 462.219284296036 + offset), ctrl2: CGPoint(x: 318.452373147011, y: 0.0 + offset))
+        let toPath2 = paths[ 0]
 
         // animations
         let animation = CABasicAnimation( keyPath: "path")
@@ -99,6 +95,24 @@ class AnimatedShapeViewController: UIViewController {
         shapePath.addCurve(to: end, controlPoint1: ctrl1, controlPoint2: ctrl2)
         
         return shapePath.cgPath
+    }
+    
+    func generateRandomPaths( begin: CGPoint, end: CGPoint, ctrl1: CGPoint, ctrl2: CGPoint) -> [ CGPath] {
+        let bezierPath = UIBezierPath()
+        
+        let adjCtrl1 = self.applyRandom(point: ctrl1)
+        let adjCtrl2 = self.applyRandom(point: ctrl2)
+        
+        bezierPath.move(to: begin)
+        bezierPath.addCurve(to: end, controlPoint1: adjCtrl1, controlPoint2: adjCtrl2)
+        
+        return [ bezierPath.cgPath]
+    }
+    
+    func applyRandom( point: CGPoint) -> CGPoint {
+        let xOffset = CGFloat( arc4random_uniform( 100))
+        let yOffset = CGFloat( arc4random_uniform( 100))
+        return CGPoint( x: point.x + xOffset, y: point.y + yOffset)
     }
 }
 
