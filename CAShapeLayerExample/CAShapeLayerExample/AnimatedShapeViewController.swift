@@ -66,6 +66,13 @@ class AnimatedShapeViewController: UIViewController {
         animation3.beginTime = animation2.beginTime
         animation3.duration = 3
         animation3.autoreverses = false
+
+        let animation4 = CABasicAnimation( keyPath: "path")
+        animation4.fromValue = toPath2
+        animation4.toValue = path
+        animation4.beginTime = animation3.beginTime + animation3.duration
+        animation4.duration = 3
+        animation2.autoreverses = false
         
         // shape
         let shape = CAShapeLayer()
@@ -75,8 +82,9 @@ class AnimatedShapeViewController: UIViewController {
 
         // add animations to layer
         let group = CAAnimationGroup()
+        group.repeatCount = Float.infinity
         group.delegate = self
-        group.animations = [ animation, animation2, animation3]
+        group.animations = [ animation, animation2, animation3, animation4]
         group.duration = group.animations?.reduce( 0, {
             accum, animation in
           return accum + animation.duration
