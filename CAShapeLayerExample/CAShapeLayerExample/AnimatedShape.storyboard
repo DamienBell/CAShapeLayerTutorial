@@ -22,15 +22,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MakeItMobile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tM-XQ-0Eh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MakeItMobile" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tM-XQ-0Eh">
                                 <rect key="frame" x="37" y="167" width="300" height="333.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fuy-2F-BLq" userLabel="Refresh">
+                                <rect key="frame" x="162" y="592" width="50" height="50"/>
+                                <state key="normal" image="refresh"/>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="fuy-2F-BLq" firstAttribute="centerX" secondItem="tbp-Mz-JcG" secondAttribute="centerX" id="4xj-A1-DC0"/>
+                            <constraint firstItem="ntF-HQ-LQx" firstAttribute="top" secondItem="fuy-2F-BLq" secondAttribute="bottom" constant="25" id="LbY-nh-8b8"/>
                             <constraint firstItem="7tM-XQ-0Eh" firstAttribute="width" secondItem="tbp-Mz-JcG" secondAttribute="width" multiplier="0.8" id="WPp-jP-eB7"/>
                             <constraint firstItem="7tM-XQ-0Eh" firstAttribute="centerY" secondItem="tbp-Mz-JcG" secondAttribute="centerY" id="nz9-IV-U2h"/>
                             <constraint firstItem="7tM-XQ-0Eh" firstAttribute="height" secondItem="tbp-Mz-JcG" secondAttribute="height" multiplier="0.5" id="v5o-tz-vcX"/>
@@ -38,12 +44,16 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="refreshButton" destination="fuy-2F-BLq" id="lu2-kB-ih0"/>
                         <outlet property="titleLabel" destination="7tM-XQ-0Eh" id="mJD-wG-fPv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bNc-UD-bws" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-286" y="95"/>
+            <point key="canvasLocation" x="-287" y="116"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="refresh" width="50" height="50"/>
+    </resources>
 </document>
