@@ -26,7 +26,7 @@ class AnimatedShapeViewController: UIViewController {
         gradient.frame = self.view.bounds
         gradient.colors = [
             UIColor.purple.cgColor,
-            UIColor(red: 244/255, green: 88/255, blue: 53/255, alpha: 1).cgColor
+            UIColor(red: 244/255, green: 88/255, blue: 53/255, alpha: 0.75).cgColor
         ]
         gradient.startPoint = CGPoint(x:0, y:0)
         gradient.endPoint = CGPoint(x:1, y:1)
@@ -69,6 +69,7 @@ class AnimatedShapeViewController: UIViewController {
         }
         
         self.addShapes()
+        self.titleLabel.text = self.contents.first
     }
     
     func onSwipe(gesture: UIGestureRecognizer) {
@@ -101,56 +102,67 @@ class AnimatedShapeViewController: UIViewController {
     }
     
     func addShapes() {
+        func animateToView( view: UIView, generatedPaths: [ CGPath], numShapes: Int) {
+            for i in 0..<numShapes {
+                let shuffledPaths = generatedPaths.map({_ -> CGPath in
+                    let index = Int( arc4random_uniform( UInt32( generatedPaths.count-1)))
+                    return generatedPaths[ index]
+                })
+                var animations: [ CABasicAnimation] = []
+                
+                // generate [ CABasicAnimation]
+                for path in shuffledPaths {
+                    let animation = CABasicAnimation()
+                    // sane defaults
+                    animation.duration = 3
+                    animation.fromValue = path
+                    animation.toValue = path
+                    animation.keyPath = "path"
+                    
+                    if let prevAnim = animations.last {
+                        animation.beginTime = prevAnim.beginTime + prevAnim.duration
+                        animation.fromValue = prevAnim.toValue
+                    }
+                    animations.append( animation)
+                }
+                // drop off first animation
+                animations.removeFirst()
+                
+                // animation group
+                let group = CAAnimationGroup()
+                group.animations = animations
+                group.delegate = self
+                group.duration = group.animations?.reduce( 0, { ( accumulator, animation) in
+                    return accumulator + animation.duration
+                }) ?? 0
+                
+                // add CAShapeLayer to view
+                let shape = CAShapeLayer()
+                shape.zPosition = -1
+                
+                let alpha = CGFloat( arc4random_uniform( UInt32( 50))) / 100.0
+                shape.fillColor = UIColor.triadColor.cgColor.copy(alpha: alpha)
+                shape.add( group, forKey: "path+color transformations")
+                self.view.layer.addSublayer( shape)
+            }
+        }
+        
         let offset: CGFloat = 75
         // generate paths
-        let generatedPaths = self.generateRandomPaths(begin: CGPoint.zero, end: CGPoint(x: 0, y: self.view.frame.maxY), ctrl1: CGPoint(x: 0.0, y: 462.219284296036 + offset), ctrl2: CGPoint(x: 318.452373147011, y: 0.0 + offset), count: 10)
+        let rightSidedPaths = self.generateRandomPaths(begin: CGPoint.zero, end: CGPoint(x: 0, y: self.view.frame.maxY), ctrl1: CGPoint(x: 0.0, y: 462.219284296036 + offset), ctrl2: CGPoint(x: 318.452373147011, y: 0.0 + offset), count: 10)
         
-        
-        let numShapes = 3
-        for i in 0..<numShapes {
-            let shuffledPaths = generatedPaths.map({_ -> CGPath in
-                let index = Int( arc4random_uniform( UInt32( generatedPaths.count-1)))
-                return generatedPaths[ index]
-            })
-            var animations: [ CABasicAnimation] = []
+        let circlePaths = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map{ index -> CGPath in
             
-            // generate [ CABasicAnimation]
-            for path in shuffledPaths {
-                let animation = CABasicAnimation()
-                // sane defaults
-                animation.duration = 3
-                animation.fromValue = path
-                animation.toValue = path
-                animation.keyPath = "path"
-                
-                if let prevAnim = animations.last {
-                    animation.beginTime = prevAnim.beginTime + prevAnim.duration
-                    animation.fromValue = prevAnim.toValue
-                }
-                animations.append( animation)
-            }
-            // drop off first animation
-            animations.removeFirst()
-            
-            // animation group
-            let group = CAAnimationGroup()
-            group.animations = animations
-            group.delegate = self
-            group.duration = group.animations?.reduce( 0, { ( accumulator, animation) in
-                return accumulator + animation.duration
-            }) ?? 0
-            
-            // add CAShapeLayer to view
-            let shape = CAShapeLayer()
-            shape.zPosition = -1
-            shape.fillColor = UIColor.random.cgColor
-            if let c = UIColor.blue.cgColor.copy(alpha: 0.5) {
-                print("With alpha: \( c.alpha)")
-                shape.fillColor = c
-            }
-            shape.add( group, forKey: "path+color transformations")
-            self.view.layer.addSublayer( shape)
+            let r = self.view.frame.width * 0.20
+            return self.generatePath(
+                begin: CGPoint(x: self.view.frame.width-r, y: 0),
+                end: CGPoint(x: self.view.frame.width-r+(2*r), y: 0),
+                ctrl1: CGPoint(x: (self.view.frame.width/2) * 2.15, y: self.view.frame.height * 0.15 * CGFloat( index))
+            )
         }
+        
+        animateToView(view: self.view, generatedPaths: rightSidedPaths, numShapes: 3)
+        animateToView(view: self.view, generatedPaths: circlePaths, numShapes: 3)
     }
     
     func generatePath( begin: CGPoint, end: CGPoint, ctrl1: CGPoint, ctrl2: CGPoint) -> CGPath {
@@ -161,15 +173,22 @@ class AnimatedShapeViewController: UIViewController {
         return shapePath.cgPath
     }
     
+    func generatePath( begin: CGPoint, end: CGPoint, ctrl1: CGPoint) -> CGPath {
+        let shapePath = UIBezierPath()
+        shapePath.move(to: begin)
+        shapePath.addQuadCurve(to: end, controlPoint: ctrl1)
+        
+        return shapePath.cgPath
+    }
+    
+    
     func generateRandomPaths( begin: CGPoint, end: CGPoint, ctrl1: CGPoint, ctrl2: CGPoint, count: Int) -> [ CGPath] {
         var rawPaths: [ (begin: CGPoint, end: CGPoint, ctrl1: CGPoint, ctrl2: CGPoint)] = [ ( begin: begin, end: end, ctrl1: ctrl1, ctrl2: ctrl2)]
         for i in 0..<count {
             let rawPath = rawPaths[ i]
             
-//            let adjCtrl1 = self.applyRandom(point: rawPath.ctrl1)
             let adjCtrl1 = rawPath.ctrl1
             let adjCtrl2 = self.applyRandom(point: rawPath.ctrl2)
-//            let adjCtrl2 = rawPath.ctrl2
             
             rawPaths.append( ( begin: begin, end: end, ctrl1: adjCtrl1, ctrl2: adjCtrl2))
         }
@@ -184,8 +203,8 @@ class AnimatedShapeViewController: UIViewController {
     }
     
     func applyRandom( point: CGPoint) -> CGPoint {
-        let xOffset = CGFloat( arc4random_uniform( 50))
-        let yOffset = CGFloat( arc4random_uniform( 50))
+        let xOffset = CGFloat( arc4random_uniform( 25))
+        let yOffset = CGFloat( arc4random_uniform( 15))
         
         print("xOffset: \( xOffset) yOffset: \( yOffset)")
         
