@@ -13,10 +13,12 @@ class AnimatedShapeViewController: UIViewController {
         "React.js",
         "Node.js",
         "Postgres",
-        "You get the idea...",
+        "ElasticSearch",
+        "RabbitMQ",
         "Hire Us! hello@makeitmobile.co"
     ]
-    private var counter = 0
+    var counter = 0
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +28,9 @@ class AnimatedShapeViewController: UIViewController {
         gradient.frame = self.view.bounds
         gradient.colors = [
             UIColor.purple.cgColor,
-            UIColor(red: 244/255, green: 88/255, blue: 53/255, alpha: 0.75).cgColor
+            UIColor.fromRGB(red: 244, green: 88, blue: 53, alpha: 0.75).cgColor
         ]
+        // top left to bottom right
         gradient.startPoint = CGPoint(x:0, y:0)
         gradient.endPoint = CGPoint(x:1, y:1)
         // z-index "below" self.view
@@ -43,23 +46,8 @@ class AnimatedShapeViewController: UIViewController {
         super.viewWillAppear( animated)
         
         addShapes()
-
-        // DEBUG
-        // visually display paths as CAShapeLayers
-//        for (index, path) in generatedPaths.enumerated() {
-//            
-//            let withDelay = 2.0
-//            DispatchQueue.main.asyncAfter(deadline: .now() + (withDelay*Double(index))) {
-//                
-//                let shape = CAShapeLayer()
-//                shape.fillColor = UIColor.random.cgColor
-//                shape.path = path
-//                self.view.layer.addSublayer( shape)
-//                
-//                print( "Add layer #\( index)")
-//            }
-//        }
     }
+
     
     func onRefreshSelected( sender: UIButton) {
         // remove only CAShapeLayer instances
@@ -68,8 +56,10 @@ class AnimatedShapeViewController: UIViewController {
             layer.removeFromSuperlayer()
         }
         
-        self.addShapes()
         self.titleLabel.text = self.contents.first
+        self.counter = 0
+        self.timer?.invalidate()
+        self.addShapes()
     }
     
     func onSwipe(gesture: UIGestureRecognizer) {
@@ -101,56 +91,36 @@ class AnimatedShapeViewController: UIViewController {
         }
     }
     
-    func addShapes() {
-        func animateToView( view: UIView, generatedPaths: [ CGPath], numShapes: Int) {
-            for i in 0..<numShapes {
-                let shuffledPaths = generatedPaths.map({_ -> CGPath in
-                    let index = Int( arc4random_uniform( UInt32( generatedPaths.count-1)))
-                    return generatedPaths[ index]
-                })
-                var animations: [ CABasicAnimation] = []
+    func initAnimatedShapes( view: UIView, paths: [ CGPath], numShapes: Int) {
+        for _ in 0..<numShapes {
+            let shuffled = shuffle( paths: paths)
+            var animations = Array(1..<shuffled.count-1).map{ index -> CABasicAnimation in
+                let from = shuffled[ index-1]
+                let to = shuffled[ index]
                 
-                // generate [ CABasicAnimation]
-                for path in shuffledPaths {
-                    let animation = CABasicAnimation()
-                    // sane defaults
-                    animation.duration = 3
-                    animation.fromValue = path
-                    animation.toValue = path
-                    animation.keyPath = "path"
-                    
-                    if let prevAnim = animations.last {
-                        animation.beginTime = prevAnim.beginTime + prevAnim.duration
-                        animation.fromValue = prevAnim.toValue
-                    }
-                    animations.append( animation)
-                }
-                // drop off first animation
-                animations.removeFirst()
-                
-                // animation group
-                let group = CAAnimationGroup()
-                group.animations = animations
-                group.delegate = self
-                group.duration = group.animations?.reduce( 0, { ( accumulator, animation) in
-                    return accumulator + animation.duration
-                }) ?? 0
-                
-                // add CAShapeLayer to view
-                let shape = CAShapeLayer()
-                shape.zPosition = -1
-                
-                let alpha = CGFloat( arc4random_uniform( UInt32( 50))) / 100.0
-                shape.fillColor = UIColor.triadColor.cgColor.copy(alpha: alpha)
-                shape.add( group, forKey: "path+color transformations")
-                self.view.layer.addSublayer( shape)
+                return generateAnimation( from: from, to: to)
             }
+            // set beginTime on animations
+            animations = Array(1..<animations.count-1).map{ index -> CABasicAnimation in
+                let prev = animations[ index-1]
+                let curr = animations[ index]
+                
+                curr.beginTime = prev.beginTime + prev.duration
+                return curr
+            }
+            let group = animationsToGroup( animations: animations)
+            
+            // add CAShapeLayer to view
+            let shape = generateShape()
+            shape.add( group, forKey: "path+color transformations")
+            self.view.layer.addSublayer( shape)
         }
-        
-        let offset: CGFloat = 75
+    }
+    
+    func addShapes() {
+        let offset: CGFloat = 25
         // generate paths
-        let rightSidedPaths = self.generateRandomPaths(begin: CGPoint.zero, end: CGPoint(x: 0, y: self.view.frame.maxY), ctrl1: CGPoint(x: 0.0, y: 462.219284296036 + offset), ctrl2: CGPoint(x: 318.452373147011, y: 0.0 + offset), count: 10)
-        
+        let rightSidedPaths = self.generateRandomPaths(begin: CGPoint.zero, end: CGPoint(x: 0, y: self.view.frame.maxY), ctrl1: CGPoint(x: self.view.frame.maxX*0.05, y: 200), ctrl2: CGPoint(x: 100, y: 0.0), count: 10)
         let circlePaths = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map{ index -> CGPath in
             
             let r = self.view.frame.width * 0.20
@@ -161,8 +131,21 @@ class AnimatedShapeViewController: UIViewController {
             )
         }
         
-        animateToView(view: self.view, generatedPaths: rightSidedPaths, numShapes: 3)
-        animateToView(view: self.view, generatedPaths: circlePaths, numShapes: 3)
+        self.initAnimatedShapes(view: self.view, paths: rightSidedPaths, numShapes: 10)
+        self.initAnimatedShapes(view: self.view, paths: circlePaths, numShapes: 5)
+        
+        self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { (timer) in
+            self.titleLabel.text = self.contents[ self.counter]
+            self.counter = self.counter + 1
+            
+            if self.counter == self.contents.count {
+                self.timer?.invalidate()
+            }
+        })
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.timer?.fire()
+        }
     }
     
     func generatePath( begin: CGPoint, end: CGPoint, ctrl1: CGPoint, ctrl2: CGPoint) -> CGPath {
@@ -181,14 +164,13 @@ class AnimatedShapeViewController: UIViewController {
         return shapePath.cgPath
     }
     
-    
     func generateRandomPaths( begin: CGPoint, end: CGPoint, ctrl1: CGPoint, ctrl2: CGPoint, count: Int) -> [ CGPath] {
         var rawPaths: [ (begin: CGPoint, end: CGPoint, ctrl1: CGPoint, ctrl2: CGPoint)] = [ ( begin: begin, end: end, ctrl1: ctrl1, ctrl2: ctrl2)]
         for i in 0..<count {
             let rawPath = rawPaths[ i]
             
             let adjCtrl1 = rawPath.ctrl1
-            let adjCtrl2 = self.applyRandom(point: rawPath.ctrl2)
+            let adjCtrl2 = self.randomize(point: rawPath.ctrl2)
             
             rawPaths.append( ( begin: begin, end: end, ctrl1: adjCtrl1, ctrl2: adjCtrl2))
         }
@@ -202,13 +184,53 @@ class AnimatedShapeViewController: UIViewController {
         })
     }
     
-    func applyRandom( point: CGPoint) -> CGPoint {
-        let xOffset = CGFloat( arc4random_uniform( 25))
-        let yOffset = CGFloat( arc4random_uniform( 15))
+    func randomize( point: CGPoint, maxX: Int = 25, maxY: Int = 15) -> CGPoint {
+        let xOffset = CGFloat( arc4random_uniform( UInt32( maxX)))
+        let yOffset = CGFloat( arc4random_uniform( UInt32( maxY)))
         
         print("xOffset: \( xOffset) yOffset: \( yOffset)")
         
         return CGPoint( x: point.x + xOffset, y: point.y + yOffset)
+    }
+    
+    func generateShape() -> CAShapeLayer {
+        let alpha = CGFloat( arc4random_uniform( UInt32( 50))) / 100.0
+        
+        let shape = CAShapeLayer()
+        shape.fillColor = UIColor.triadColor.cgColor.copy(alpha: alpha)
+        shape.zPosition = -1
+        
+        return shape
+    }
+    
+    func generateAnimation( from: CGPath, to: CGPath, duration: CFTimeInterval = 3) -> CABasicAnimation {
+        let animation = CABasicAnimation()
+        // sane defaults
+        animation.duration = duration
+        animation.fromValue = from
+        animation.toValue = to
+        animation.keyPath = "path"
+        
+        return animation
+    }
+    
+    func animationsToGroup( animations: [ CABasicAnimation]) -> CAAnimationGroup {
+        // animation group
+        let group = CAAnimationGroup()
+        group.animations = animations
+        group.delegate = self
+        group.duration = group.animations?.reduce( 0, { ( accumulator, animation) in
+            return accumulator + animation.duration
+        }) ?? 0
+        
+        return group
+    }
+    
+    func shuffle( paths: [ CGPath]) -> [ CGPath] {
+        return paths.map({_ -> CGPath in
+            let index = Int( arc4random_uniform( UInt32( paths.count-1)))
+            return paths[ index]
+        })
     }
 }
 
@@ -216,6 +238,9 @@ class AnimatedShapeViewController: UIViewController {
 extension AnimatedShapeViewController: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         print("Finished? \( flag ? "Yes" : "No")")
+    }
+    
+    func animationDidStart(_ anim: CAAnimation) {
     }
 }
 
