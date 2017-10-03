@@ -126,8 +126,8 @@ class AnimatedShapeViewController: UIViewController {
             )
         }
         
-        self.initAnimatedShapes(view: self.view, paths: rightSidedPaths, numShapes: 10)
-        self.initAnimatedShapes(view: self.view, paths: circlePaths, numShapes: 5)
+        self.initAnimatedShapes(view: self.view, paths: rightSidedPaths, numShapes: 20)
+        self.initAnimatedShapes(view: self.view, paths: circlePaths, numShapes: 10)
         
         self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { (timer) in
             self.titleLabel.text = self.contents[ self.counter]
