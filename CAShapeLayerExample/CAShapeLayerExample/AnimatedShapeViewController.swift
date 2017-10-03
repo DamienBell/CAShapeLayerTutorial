@@ -100,14 +100,9 @@ class AnimatedShapeViewController: UIViewController {
                 
                 return generateAnimation( from: from, to: to)
             }
-            // set beginTime on animations
-            animations = Array(1..<animations.count-1).map{ index -> CABasicAnimation in
-                let prev = animations[ index-1]
-                let curr = animations[ index]
-                
-                curr.beginTime = prev.beginTime + prev.duration
-                return curr
-            }
+            // chain animations by setting beginTime appropriately
+            animations = chainAnimations( animations: animations)
+            
             let group = animationsToGroup( animations: animations)
             
             // add CAShapeLayer to view
@@ -143,7 +138,7 @@ class AnimatedShapeViewController: UIViewController {
             }
         })
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (timer) in
             self.timer?.fire()
         }
     }
@@ -212,6 +207,16 @@ class AnimatedShapeViewController: UIViewController {
         animation.keyPath = "path"
         
         return animation
+    }
+    
+    func chainAnimations( animations: [ CABasicAnimation]) -> [ CABasicAnimation] {
+        return Array(1..<animations.count-1).map{ index -> CABasicAnimation in
+            let prev = animations[ index-1]
+            let curr = animations[ index]
+            
+            curr.beginTime = prev.beginTime + prev.duration
+            return curr
+        }
     }
     
     func animationsToGroup( animations: [ CABasicAnimation]) -> CAAnimationGroup {
