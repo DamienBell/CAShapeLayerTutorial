@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="XNj-2g-v0j">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wJL-a8-JQf">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -51,6 +51,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bNc-UD-bws" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-287" y="116"/>
+        </scene>
+        <!--Swipeable View Controller-->
+        <scene sceneID="7tY-gP-RRK">
+            <objects>
+                <viewController id="wJL-a8-JQf" customClass="SwipeableViewController" customModule="CAShapeLayerExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ebA-Nn-mSn"/>
+                        <viewControllerLayoutGuide type="bottom" id="sXh-c8-vVj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Zhc-G2-MdM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MakeItMobile" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bN0-Mi-7yj">
+                                <rect key="frame" x="37.5" y="167" width="300" height="333.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bN0-Mi-7yj" firstAttribute="width" secondItem="Zhc-G2-MdM" secondAttribute="width" multiplier="0.8" id="F0w-UX-t6H"/>
+                            <constraint firstItem="bN0-Mi-7yj" firstAttribute="height" secondItem="Zhc-G2-MdM" secondAttribute="height" multiplier="0.5" id="b3G-7J-1Zy"/>
+                            <constraint firstItem="bN0-Mi-7yj" firstAttribute="centerY" secondItem="Zhc-G2-MdM" secondAttribute="centerY" id="bQG-mf-CVy"/>
+                            <constraint firstItem="bN0-Mi-7yj" firstAttribute="centerX" secondItem="Zhc-G2-MdM" secondAttribute="centerX" id="uoa-ML-eCc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="titleLabel" destination="bN0-Mi-7yj" id="DKe-ww-hXn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rvg-tp-DVR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="750" y="116"/>
         </scene>
     </scenes>
     <resources>
