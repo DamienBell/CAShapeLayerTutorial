@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Landing View Controller-->
+        <!--Curve Builder View Controller-->
         <scene sceneID="84j-4D-cBl">
             <objects>
-                <viewController id="LMd-XL-yAd" customClass="LandingViewController" customModule="CAShapeLayerExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="LMd-XL-yAd" customClass="CurveBuilderViewController" customModule="CAShapeLayerExample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wsN-4C-GpV"/>
                         <viewControllerLayoutGuide type="bottom" id="n4j-L0-4S2"/>

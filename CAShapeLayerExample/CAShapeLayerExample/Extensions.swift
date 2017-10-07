@@ -13,11 +13,6 @@ extension CGFloat {
 
 
 extension UIColor {
-    static func fromRGB( red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) -> UIColor {
-        // #09203f → #537895
-        return UIColor.blue
-    }
-    
     static var random: UIColor {
         return UIColor(red: CGFloat.random(), green: CGFloat.random(), blue: CGFloat.random(), alpha: 1.0)
     }

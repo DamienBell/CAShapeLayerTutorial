@@ -2,7 +2,7 @@
 import UIKit
 
 
-class SlideViewController: UIViewController {
+class ExperimentalSlideViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     
     let contents = [
@@ -28,7 +28,7 @@ class SlideViewController: UIViewController {
         gradient.frame = self.view.bounds
         gradient.colors = [
             UIColor.purple.cgColor,
-            UIColor(red: 244/255, green: 88/255, blue: 53/255, alpha: 1).cgColor
+            UIColor.blue.cgColor
         ]
         gradient.startPoint = CGPoint(x:0, y:0)
         gradient.endPoint = CGPoint(x:1, y:1)

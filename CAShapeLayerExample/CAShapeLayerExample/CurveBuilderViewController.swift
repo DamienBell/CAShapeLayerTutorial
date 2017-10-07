@@ -1,6 +1,6 @@
 import UIKit
 
-class LandingViewController: UIViewController {
+class CurveBuilderViewController: UIViewController {
     
     @IBOutlet weak var x1Label: UILabel!
     @IBOutlet weak var y1Label: UILabel!

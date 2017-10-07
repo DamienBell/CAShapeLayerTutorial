@@ -1,7 +1,7 @@
-import UIKit
+    import UIKit
 
 
-class AnimatedShapeViewController: UIViewController {
+class ChainedAnimationsShapeViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var refreshButton: UIButton!
     
@@ -22,13 +22,23 @@ class AnimatedShapeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear( animated)
+        
+        self.view.layer.sublayers?.filter{ layer -> Bool in return layer is CAShapeLayer || layer is CAGradientLayer }
+                                 .forEach{ layer -> Void in
+            layer.removeAllAnimations()
+            layer.removeFromSuperlayer()
+        }
         
         // set gradient background
         let gradient = CAGradientLayer()
         gradient.frame = self.view.bounds
         gradient.colors = [
             UIColor.purple.cgColor,
-            UIColor.fromRGB(red: 244, green: 88, blue: 53, alpha: 0.75).cgColor
+            UIColor.red.cgColor
         ]
         // top left to bottom right
         gradient.startPoint = CGPoint(x:0, y:0)
@@ -40,10 +50,6 @@ class AnimatedShapeViewController: UIViewController {
         self.titleLabel.textColor = UIColor.white
         self.refreshButton.addTarget( self, action: #selector( self.onRefreshSelected(sender:)), for: UIControlEvents.touchUpInside)
         self.addGestureRecognizers(view: self.view)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear( animated)
         
         addShapes()
     }
@@ -113,7 +119,6 @@ class AnimatedShapeViewController: UIViewController {
     }
     
     func addShapes() {
-        let offset: CGFloat = 25
         // generate paths
         let rightSidedPaths = self.generateRandomPaths(begin: CGPoint.zero, end: CGPoint(x: 0, y: self.view.frame.maxY), ctrl1: CGPoint(x: self.view.frame.maxX*0.05, y: 200), ctrl2: CGPoint(x: 100, y: 0.0), count: 10)
         let circlePaths = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map{ index -> CGPath in
@@ -130,12 +135,13 @@ class AnimatedShapeViewController: UIViewController {
         self.initAnimatedShapes(view: self.view, paths: circlePaths, numShapes: 10)
         
         self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { (timer) in
-            self.titleLabel.text = self.contents[ self.counter]
             self.counter = self.counter + 1
             
             if self.counter == self.contents.count {
                 self.timer?.invalidate()
+                self.counter = 0
             }
+            self.titleLabel.text = self.contents[ self.counter]
         })
         
         Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (timer) in
@@ -240,7 +246,7 @@ class AnimatedShapeViewController: UIViewController {
 }
 
 
-extension AnimatedShapeViewController: CAAnimationDelegate {
+extension ChainedAnimationsShapeViewController: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         print("Finished? \( flag ? "Yes" : "No")")
     }

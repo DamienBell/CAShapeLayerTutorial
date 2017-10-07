@@ -10,10 +10,18 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Animated Shape View Controller-->
+        <!--Examples Page View Controller-->
+        <scene sceneID="qzA-Z7-jZM">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="NXD-pI-riF" customClass="ExamplesPageViewController" customModule="CAShapeLayerExample" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="llk-K8-pML" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-452" y="133"/>
+        </scene>
+        <!--Chained Animations Shape View Controller-->
         <scene sceneID="Vp8-qF-kit">
             <objects>
-                <viewController id="XNj-2g-v0j" customClass="AnimatedShapeViewController" customModule="CAShapeLayerExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChainedAnimationsShapeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="XNj-2g-v0j" customClass="ChainedAnimationsShapeViewController" customModule="CAShapeLayerExample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gw5-UM-JVv"/>
                         <viewControllerLayoutGuide type="bottom" id="ntF-HQ-LQx"/>
@@ -43,6 +51,7 @@
                             <constraint firstItem="7tM-XQ-0Eh" firstAttribute="centerX" secondItem="tbp-Mz-JcG" secondAttribute="centerX" id="yoj-VQ-CCV"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="CtW-Lr-wgo"/>
                     <connections>
                         <outlet property="refreshButton" destination="fuy-2F-BLq" id="lu2-kB-ih0"/>
                         <outlet property="titleLabel" destination="7tM-XQ-0Eh" id="mJD-wG-fPv"/>
@@ -50,12 +59,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bNc-UD-bws" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-287" y="116"/>
+            <point key="canvasLocation" x="506" y="133"/>
         </scene>
-        <!--Swipeable View Controller-->
+        <!--Swiped Animations View Controller-->
         <scene sceneID="7tY-gP-RRK">
             <objects>
-                <viewController id="wJL-a8-JQf" customClass="SwipeableViewController" customModule="CAShapeLayerExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SwipedAnimationsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="wJL-a8-JQf" customClass="SwipedAnimationsViewController" customModule="CAShapeLayerExample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ebA-Nn-mSn"/>
                         <viewControllerLayoutGuide type="bottom" id="sXh-c8-vVj"/>
@@ -85,7 +94,42 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rvg-tp-DVR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="116"/>
+            <point key="canvasLocation" x="505" y="957"/>
+        </scene>
+        <!--Experimental Slide View Controller-->
+        <scene sceneID="KNQ-g3-TbD">
+            <objects>
+                <viewController storyboardIdentifier="ExperimentalSlideViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZnK-N0-1TU" customClass="ExperimentalSlideViewController" customModule="CAShapeLayerExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XMg-Ju-jvL"/>
+                        <viewControllerLayoutGuide type="bottom" id="Gp2-r3-4GI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fZq-Is-2HH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MakeItMobile" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fb4-oe-y7o">
+                                <rect key="frame" x="37.5" y="167" width="300" height="333.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fb4-oe-y7o" firstAttribute="centerX" secondItem="fZq-Is-2HH" secondAttribute="centerX" id="G82-MR-atp"/>
+                            <constraint firstItem="fb4-oe-y7o" firstAttribute="centerY" secondItem="fZq-Is-2HH" secondAttribute="centerY" id="fGo-Ae-eRv"/>
+                            <constraint firstItem="fb4-oe-y7o" firstAttribute="height" secondItem="fZq-Is-2HH" secondAttribute="height" multiplier="0.5" id="syN-FY-5oa"/>
+                            <constraint firstItem="fb4-oe-y7o" firstAttribute="width" secondItem="fZq-Is-2HH" secondAttribute="width" multiplier="0.8" id="vty-cL-M3M"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="titleLabel" destination="fb4-oe-y7o" id="Mid-UH-Tim"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T1s-kF-W3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1465" y="133"/>
         </scene>
     </scenes>
     <resources>

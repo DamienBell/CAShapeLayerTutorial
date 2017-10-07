@@ -1,7 +1,7 @@
 import UIKit
 
 
-class SwipeableViewController: UIViewController {
+class SwipedAnimationsViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -45,7 +45,7 @@ class SwipeableViewController: UIViewController {
             // generate paths
             let paths = self.shuffle( paths:
                 
-                Array( 0..<self.contents.count).map{ _ -> CGPath in
+                (0..<self.contents.count).map{ _ -> CGPath in
                     return self.generatePath(
                         begin: CGPoint.zero,
                         end: CGPoint(x: ((150/forWidth)*self.view.frame.width), y: self.view.frame.maxY),
@@ -80,7 +80,7 @@ class SwipeableViewController: UIViewController {
         gradient.frame = self.view.bounds
         gradient.colors = [
             UIColor.purple.cgColor,
-            UIColor.fromRGB(red: 244, green: 88, blue: 53, alpha: 0.75).cgColor
+            UIColor.blue.cgColor
         ]
         // top left to bottom right
         gradient.startPoint = CGPoint(x:0, y:0)
