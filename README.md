@@ -1,3 +1,14 @@
+There are 3 ViewControllers to look at:
+ * ChainedAnimationsShapeViewController (no user interaction required.)
+ * ExperimentalSlideViewController (styling)
+ * SwipedAnimationsViewController (animates CAShapeLayers on every swipe)
+
+These all live in Shapes.storyboard.
+
+To run first 2 VCs - set ExamplesPageViewController to initial view controller.
+To run SwipedAnimationsViewController, set it to initial view controller.
+
+
 # CAShapeLayer Tutorial
 
 ## Ok, let's build an animating UITableView using CASphapeLayer, and the UTTableView ScrollDelegate inspired by this design [this design](https://cdn.dribbble.com/users/467195/screenshots/2719343/attachments/550388/magicco_tubik_studio.mp4).
